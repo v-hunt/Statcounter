@@ -48,8 +48,6 @@ class UrlBuilder(object):
         return '&'.join(series)
 
     def build(self, params: dict):
-        vn = self.api_version_number
-
         if 't' not in params:
             params['t'] = self._get_now_time()
 
