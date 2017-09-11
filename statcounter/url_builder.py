@@ -1,8 +1,5 @@
 import time
 import hashlib
-from collections import OrderedDict
-
-from requests import PreparedRequest
 
 
 class UrlBuilder(object):
@@ -47,6 +44,11 @@ class UrlBuilder(object):
                   for key, value in params.items()]
         return '&'.join(series)
 
+    @staticmethod
+    def _urlize_multiple_pi_params(pi_values):
+        pi_values = map(str, pi_values)
+        return '&pi=' + '&pi='.join(pi_values)
+
     def build(self, params: dict):
         if 't' not in params:
             params['t'] = self._get_now_time()
@@ -54,9 +56,22 @@ class UrlBuilder(object):
         if 'f' not in params:
             params['f'] = 'json'
 
-        # TODO: Add possibility to use multiple project ids
-        url = self.base_url + \
-              '?vn=' + str(self.api_version_number) + \
-              '&' + self._urlize_params(params) + \
-              '&u=' + self.username
+        multi_pi_url_part = None
+        if 'pi' in params:
+            if isinstance(params['pi'], list):
+                multi_pi_url_part = self._urlize_multiple_pi_params(
+                    params.pop('pi')
+                )
+
+        if not multi_pi_url_part:
+            url = self.base_url + \
+                  '?vn=' + str(self.api_version_number) + \
+                  '&' + self._urlize_params(params) + \
+                  '&u=' + self.username
+        else:
+            url = self.base_url + \
+                  '?vn=' + str(self.api_version_number) + \
+                  '&' + self._urlize_params(params) + \
+                  multi_pi_url_part + \
+                  '&u=' + self.username
         return self._hash_the_url(url)

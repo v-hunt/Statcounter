@@ -69,3 +69,16 @@ class UrlBuilderTestCase(TestCase):
             expected_url,
             "Url was not built properly!"
         )
+
+    def test_multiple_pi_parameter_support(self):
+        params = {
+            'pi': [11, 22, 33]
+        }
+
+        result_url = self.url_builder.build(params)
+        print(result_url)
+
+        self.assertIn(
+            '&pi=11&pi=22&pi=33',
+            result_url
+        )
