@@ -76,7 +76,6 @@ class UrlBuilderTestCase(TestCase):
         }
 
         result_url = self.url_builder.build(params)
-        print(result_url)
 
         self.assertIn(
             '&pi=11&pi=22&pi=33',
