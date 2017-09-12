@@ -3,18 +3,21 @@ from statcounter.url_builder import UrlBuilder
 from statcounter import conf
 
 
-class DateRangeParams(object):
+class DateRange(object):
     """
-    Collection of builder for date range parameters
+    Builder for date range parameters
 
     See http://statcounter.com/api/docs/v3#date-range
     """
 
-    @staticmethod
-    def hourly(start_hour: int, start_day: int, start_month: int, start_year: int,
-               end_hour: int, end_day: int, end_month: int, end_year: int) -> dict:
+    def __init__(self, **params):
+        self.params = params
 
-        return {
+    @classmethod
+    def hourly(cls, start_hour: int, start_day: int, start_month: int, start_year: int,
+               end_hour: int, end_day: int, end_month: int, end_year: int):
+
+        return cls(**{
             'g': 'hourly',
             'sh': start_hour,
             'sd': start_day,
@@ -24,13 +27,13 @@ class DateRangeParams(object):
             'ed': end_day,
             'em': end_month,
             'ey': end_year,
-        }
+        })
 
-    @staticmethod
-    def daily(start_day: int, start_month: int, start_year: int,
+    @classmethod
+    def daily(cls, start_day: int, start_month: int, start_year: int,
               end_day: int, end_month: int, end_year: int):
 
-        return {
+        return cls(**{
             'g': 'daily',
             'sd': start_day,
             'sm': start_month,
@@ -38,48 +41,48 @@ class DateRangeParams(object):
             'ed': end_day,
             'em': end_month,
             'ey': end_year,
-        }
+        })
 
-    @staticmethod
-    def weekly(start_year: int, start_week: int,
+    @classmethod
+    def weekly(cls, start_year: int, start_week: int,
                end_year: int, end_week: int):
-        return {
+        return cls(**{
             'g': 'weekly',
             'sy': start_year,
             'sw': start_week,
             'ey': end_year,
             'ew': end_week,
-        }
+        })
 
-    @staticmethod
-    def monthly(start_month: int, start_year: int,
+    @classmethod
+    def monthly(cls, start_month: int, start_year: int,
                 end_month: int, end_year: int):
-        return {
+        return cls(**{
             'g': 'monthly',
             'sm': start_month,
             'sy': start_year,
             'em': end_month,
             'ey': end_year,
-        }
+        })
 
-    @staticmethod
-    def quarterly(start_year: int, start_quarter: int,
+    @classmethod
+    def quarterly(cls, start_year: int, start_quarter: int,
                   end_year: int, end_quarter: int):
-        return {
+        return cls(**{
             'g': 'quarterly',
             'sy': start_year,
             'sq': start_quarter,
             'ey': end_year,
             'eq': end_quarter,
-        }
+        })
 
-    @staticmethod
-    def yearly(start_year: int, end_year: int):
-        return {
+    @classmethod
+    def yearly(cls, start_year: int, end_year: int):
+        return cls(**{
             'g': 'yearly',
             'sy': start_year,
             'ey': end_year,
-        }
+        })
 
 
 class Stats(BaseClient):
