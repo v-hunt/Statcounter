@@ -12,6 +12,7 @@ class DateRange(object):
     def hourly(cls, start_hour: int, start_day: int, start_month: int, start_year: int,
                end_hour: int, end_day: int, end_month: int, end_year: int):
 
+        # TODO: think about not using dict here
         return cls(**{
             'g': 'hourly',
             'sh': start_hour,
