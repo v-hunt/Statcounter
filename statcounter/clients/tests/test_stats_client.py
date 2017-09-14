@@ -73,7 +73,13 @@ class StatsClientTestCase(TestCase):
 
     def test_recent_came_from(self):
         try:
-            self.client.recent_came_from(DEMO_PROJECT_ID, n=100)
+            self.client.recent_came_from(DEMO_PROJECT_ID, n=20)
+        except HTTPError:
+            self.fail("Fail to retrieve summary data!")
+
+    def test_recent_keyword_activity(self):
+        try:
+            self.client.recent_keyword_activity(DEMO_PROJECT_ID, n=100)
         except HTTPError:
             self.fail("Fail to retrieve summary data!")
 

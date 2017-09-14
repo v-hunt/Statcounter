@@ -191,3 +191,28 @@ class StatsClient(BaseClient):
         response = requests.get(url)
         response.raise_for_status()
         return response.json()['sc_data']
+
+    def recent_keyword_activity(
+            self, project_id: Union[int, List[int]],
+            exclude_encrypted_keywords: bool=False,
+            exclude_external_results: bool=True,
+            date_range: Union[DateRange, None]=None, n: int=20):
+        """
+        Docs: http://statcounter.com/api/docs/v3#keyword-activity
+        """
+        params = {
+            's': 'keyword-activity',
+            'pi': project_id,
+            'n': n,
+            'eek': int(exclude_encrypted_keywords),
+            'e': int(exclude_external_results),
+        }
+
+        if date_range:
+            params.update(date_range.params)
+
+        url = self._url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
