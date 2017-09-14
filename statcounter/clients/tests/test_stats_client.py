@@ -47,3 +47,8 @@ class StatsClientTestCase(TestCase):
         except HTTPError:
             self.fail("Fail to retrieve summary data!")
 
+    def test_popular_pages(self):
+        try:
+            self.client.popular_pages(DEMO_PROJECT_ID, chop_urls=False)
+        except HTTPError:
+            self.fail("Fail to retrieve summary data!")
