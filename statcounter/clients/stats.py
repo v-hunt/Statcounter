@@ -122,8 +122,6 @@ class StatsClient(BaseClient):
                    date_range: Union[DateRange, None]=None, n: int=20):
         """
         Docs: http://statcounter.com/api/docs/v3#exit
-
-        @count_type: should be 'page_view' or 'visitor'
         """
 
         # TODO: for now I can't see any difference when change chop_urls or count_type
@@ -151,8 +149,6 @@ class StatsClient(BaseClient):
                   date_range: Union[DateRange, None]=None, n: int=20):
         """
         Docs: http://statcounter.com/api/docs/v3#camefrom
-
-        @count_type: should be 'page_view' or 'visitor'
         """
 
         # TODO: for now I can't see any difference when change chop_urls or count_type
@@ -163,6 +159,28 @@ class StatsClient(BaseClient):
             'n': n,
             'ese': int(exclude_search_engines),
             'gbd': int(group_by_domain),
+        }
+
+        if date_range:
+            params.update(date_range.params)
+
+        url = self._url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
+
+    def recent_came_from(self, project_id: Union[int, List[int]],
+                         exclude_search_engines: bool=False,
+                         date_range: Union[DateRange, None]=None, n: int=20):
+        """
+        Docs: http://statcounter.com/api/docs/v3#recent_camefrom
+        """
+        params = {
+            's': 'recent_camefrom',
+            'pi': project_id,
+            'n': n,
+            'ese': int(exclude_search_engines),
         }
 
         if date_range:

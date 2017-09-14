@@ -71,3 +71,9 @@ class StatsClientTestCase(TestCase):
         except HTTPError:
             self.fail("Fail to retrieve summary data!")
 
+    def test_recent_came_from(self):
+        try:
+            self.client.recent_came_from(DEMO_PROJECT_ID, n=100)
+        except HTTPError:
+            self.fail("Fail to retrieve summary data!")
+
