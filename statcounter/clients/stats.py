@@ -88,3 +88,59 @@ class StatsClient(BaseClient):
         response = requests.get(url)
         response.raise_for_status()
         return response.json()['sc_data']
+
+    def entry_pages(self, project_id: Union[int, List[int]],
+                    chop_urls: bool=True, count_type: str='page_view',
+                    date_range: Union[DateRange, None]=None, n: int=20):
+        """
+        Docs: http://statcounter.com/api/docs/v3#entry
+
+        @count_type: should be 'page_view' or 'visitor'
+        """
+
+        # TODO: for now I can't see any difference when change chop_urls or count_type
+
+        params = {
+            's': 'entry',
+            'pi': project_id,
+            'n': n,
+            'c': int(chop_urls),
+            'ct': count_type,
+        }
+
+        if date_range:
+            params.update(date_range.params)
+
+        url = self._url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
+
+    def exit_pages(self, project_id: Union[int, List[int]],
+                   chop_urls: bool=True, count_type: str='page_view',
+                   date_range: Union[DateRange, None]=None, n: int=20):
+        """
+        Docs: http://statcounter.com/api/docs/v3#exit
+
+        @count_type: should be 'page_view' or 'visitor'
+        """
+
+        # TODO: for now I can't see any difference when change chop_urls or count_type
+
+        params = {
+            's': 'exit',
+            'pi': project_id,
+            'n': n,
+            'c': int(chop_urls),
+            'ct': count_type,
+        }
+
+        if date_range:
+            params.update(date_range.params)
+
+        url = self._url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
