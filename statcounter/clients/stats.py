@@ -237,3 +237,24 @@ class StatsClient(BaseClient):
         response = requests.get(url)
         response.raise_for_status()
         return response.json()['sc_data']
+
+    def recent_pageload_activity(
+            self, project_id: Union[int, List[int]],
+            date_range: Union[DateRange, None]=None, n: int=20):
+        """
+        Docs:
+        """
+        params = {
+            's': 'pageload',
+            'pi': project_id,
+            'n': n,
+        }
+
+        if date_range:
+            params.update(date_range.params)
+
+        url = self._url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
