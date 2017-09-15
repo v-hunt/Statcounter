@@ -101,3 +101,10 @@ class StatsClientTestCase(TestCase):
         except HTTPError:
             self.fail("Fail to retrieve summary data!")
 
+    def test_keyword_analysis(self):
+        try:
+            r = self.client.keyword_analysis(DEMO_PROJECT_ID, n=100)
+            print(r)
+        except HTTPError:
+            self.fail("Fail to retrieve summary data!")
+

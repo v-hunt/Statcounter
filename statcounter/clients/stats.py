@@ -279,3 +279,30 @@ class StatsClient(BaseClient):
         response = requests.get(url)
         response.raise_for_status()
         return response.json()['sc_data']
+
+    def keyword_analysis(
+            self, project_id: Union[int, List[int]],
+            combine_keywords: str='search_engine_host',
+            exclude_encrypted_keywords: bool=False,
+            date_range: Union[DateRange, None]=None, n: int=20):
+        """
+        Docs: http://statcounter.com/api/docs/v3#keyword-analysis
+
+        @combine_keywords: 'search_engine_host', 'search_engine_name' or 'together'
+        """
+        params = {
+            's': 'keyword_analysis',
+            'pi': project_id,
+            'n': n,
+            'ck': combine_keywords,
+            'eek': bool(exclude_encrypted_keywords),
+        }
+
+        if date_range:
+            params.update(date_range.params)
+
+        url = self._url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
