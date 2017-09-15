@@ -95,3 +95,9 @@ class StatsClientTestCase(TestCase):
         except HTTPError:
             self.fail("Fail to retrieve summary data!")
 
+    def test_visit_length(self):
+        try:
+            self.client.visit_length(DEMO_PROJECT_ID, n=100)
+        except HTTPError:
+            self.fail("Fail to retrieve summary data!")
+

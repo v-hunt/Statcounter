@@ -242,10 +242,31 @@ class StatsClient(BaseClient):
             self, project_id: Union[int, List[int]],
             date_range: Union[DateRange, None]=None, n: int=20):
         """
-        Docs:
+        Docs: http://statcounter.com/api/docs/v3#pageload
         """
         params = {
             's': 'pageload',
+            'pi': project_id,
+            'n': n,
+        }
+
+        if date_range:
+            params.update(date_range.params)
+
+        url = self._url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
+
+    def visit_length(
+            self, project_id: Union[int, List[int]],
+            date_range: Union[DateRange, None]=None, n: int=20):
+        """
+        Docs: http://statcounter.com/api/docs/v3#visit-length
+        """
+        params = {
+            's': 'visit_length',
             'pi': project_id,
             'n': n,
         }
