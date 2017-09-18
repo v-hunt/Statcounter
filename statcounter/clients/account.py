@@ -1,6 +1,3 @@
-from urllib.parse import quote
-from collections import namedtuple
-
 import requests
 
 from statcounter.url_builder import UrlBuilder
