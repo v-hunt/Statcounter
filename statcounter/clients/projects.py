@@ -72,3 +72,45 @@ class ProjectsClient(object):
 
         response = requests.get(url)
         response.raise_for_status()
+
+    def retrieve_projects_details(self):
+        """
+        Retrieve details for ALL projects.
+
+        Docs: http://statcounter.com/api/docs/v3#user-projects
+        """
+        url_builder = UrlBuilder(
+            api_root=conf.API_ROOT,
+            url_tail='user_projects/',
+            username=self._username, password=self._password,
+            api_version=conf.API_VERSION_NUMBER,
+        )
+
+        url = url_builder.build({})
+
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.json()['sc_data']
+
+    def retrieve_selected_project_details(self, project_id: int):
+        """
+        Retrieve details for particular user's project.
+
+        Docs: http://statcounter.com/api/docs/v3#select-project
+        """
+        url_builder = UrlBuilder(
+            api_root=conf.API_ROOT,
+            url_tail='select_project/',
+            username=self._username, password=self._password,
+            api_version=conf.API_VERSION_NUMBER,
+        )
+        params = {
+            'pi': project_id,
+        }
+
+        url = url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
+
+        return response.json()['sc_data']
