@@ -17,16 +17,19 @@ class ProjectsClient(object):
         self._password = password
 
     def create(self, website_title: str, website_url: str,
-               public_stats_level: int=1) -> SCProjectData:
+               public_stats_level: int=1,
+               time_zone: str='America/New_York') -> SCProjectData:
         """
         Create a new project.
 
         Docs: http://statcounter.com/api/docs/v3#create-project
 
-        public_stats_level:
+        @public_stats_level:
             0: All public stats are disabled
             1: All stats are public
             2: Only 'Summary Stats' are public
+
+        @time_zone: http://statcounter.com/api/docs/v3#timezone
         """
         url_builder = UrlBuilder(
             api_root=conf.API_ROOT,
@@ -38,6 +41,7 @@ class ProjectsClient(object):
             'wt': quote(website_title),
             'wu': quote(website_url),
             'ps': public_stats_level,
+            'tz': quote(time_zone),
         }
 
         url = url_builder.build(params)
