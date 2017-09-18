@@ -50,3 +50,25 @@ class ProjectsClient(object):
             project_id=data['project_id'],
             security_code=data['security_code'],
         )
+
+    def increase_log_size(self, project_id: int, logsize: int) -> None:
+        """
+        Increase Project Log Size.
+
+        Docs: http://statcounter.com/api/docs/v3#increase-logsize
+        """
+        url_builder = UrlBuilder(
+            api_root=conf.API_ROOT,
+            url_tail='update_logsize/',
+            username=self._username, password=self._password,
+            api_version=conf.API_VERSION_NUMBER,
+        )
+        params = {
+            'pi': project_id,
+            'ls': logsize,
+        }
+
+        url = url_builder.build(params)
+
+        response = requests.get(url)
+        response.raise_for_status()
