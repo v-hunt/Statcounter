@@ -5,10 +5,6 @@ import requests
 from statcounter.clients.base import BaseClient
 from statcounter.utils.date_range import DateRange
 
-from typing import NewType
-
-new = NewType('new', Union['aa', 'bb'])
-
 
 class StatsClient(BaseClient):
     """
