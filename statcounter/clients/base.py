@@ -10,12 +10,12 @@ class BaseClient(ABC):
     http://statcounter.com/api/docs/v3#retrieve-stats
     """
 
-    def __init__(self, username: str, password: str):
+    def __init__(self, username: str, api_password: str):
 
         self._url_builder = UrlBuilder(
             api_root=conf.API_ROOT,
             url_tail=self._url_tail,
-            username=username, password=password,
+            username=username, password=api_password,
             api_version=conf.API_VERSION_NUMBER,
         )
 

@@ -14,7 +14,7 @@ class StatsClientTestCase(TestCase):
     def setUp(self):
         self.client = StatsClient(
             username=DEMO_USERNAME,
-            password=DEMO_API_PASSWORD,
+            api_password=DEMO_API_PASSWORD,
         )
 
     def test_summary(self):
